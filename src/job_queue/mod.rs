@@ -6,6 +6,14 @@ pub struct JobQueue {}
 pub type Job = alloc::boxed::Box<dyn FnOnce() + Send + 'static>;
 
 impl JobQueue {
+    /// Blocks until all jobs are finished
+    #[allow(unreachable_code)]
+    pub fn block() {
+        while Self::num_jobs() > 0 {
+            // block...
+        }
+    }
+
     /// The number of jobs currently processing
     #[allow(unreachable_code)]
     pub fn num_jobs() -> usize {
@@ -35,7 +43,7 @@ impl JobQueue {
 
 #[cfg(test)]
 mod tests {
-    use std::{borrow::BorrowMut, sync::Mutex};
+    use std::sync::Mutex;
 
     use super::*;
 
