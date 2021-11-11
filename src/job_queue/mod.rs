@@ -32,3 +32,29 @@ impl JobQueue {
         f();
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use std::{borrow::BorrowMut, sync::Mutex};
+
+    use super::*;
+
+    #[test]
+    fn test_many_jobs() {
+        lazy_static! {
+            pub(crate) static ref I: Mutex<i32> = Mutex::new(0);
+        }
+
+        for _ in 0..10 {
+            JobQueue::queue(Box::new(|| {
+                let mut data = I.lock().unwrap();
+                *data += 1;
+            }));
+        }
+
+        while JobQueue::num_jobs() > 0 {}
+
+        assert_eq!(0, JobQueue::num_jobs());
+        assert_eq!(10, *I.lock().unwrap());
+    }
+}

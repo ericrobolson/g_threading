@@ -64,7 +64,7 @@ impl ThreadHandler {
                     let job = {
                         let mut handler = THREAD_HANDLER.lock().unwrap();
                         if handler.jobs.is_empty() == false {
-                            THREAD_HANDLER.lock().unwrap().decrement_jobs();
+                            handler.decrement_jobs();
 
                             Some(handler.jobs.remove(0))
                         } else {
