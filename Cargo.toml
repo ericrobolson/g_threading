@@ -1,0 +1,15 @@
+[package]
+name = "g_threading"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+default = ["threaded"]
+threaded = ["lazy_static", "num_cpus"]
+
+
+[dependencies]
+lazy_static = {version="1.4", optional=true}
+num_cpus = {version="1.0", optional=true}
